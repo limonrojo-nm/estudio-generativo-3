@@ -22,7 +22,9 @@ class GenaradorRuido:
     def __init__(self, incremento):
         self._incremento = incremento
     
-    def __call__(self): return noise(self.noise_offset)
+    def __call__(self):
+        self._incrementar_offset()
+        return noise(self.noise_offset)
     
     @property
     def incremento(self): return self._incremento

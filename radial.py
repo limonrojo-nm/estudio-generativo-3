@@ -5,10 +5,12 @@ from utils import Punto, GenaradorRuido
 
 class Radial(Dibujo, ConCore):
     _fotogramas_por_giro = 90
-    _amplitud_noise_off = 0.0
     
     
     def __init__(self, atomo):
+        self._amplitud_noise = GenaradorRuido(.001)
+        self._angulo_noise = GenaradorRuido(.005)
+        self._amplitud_maxima_noise = GenaradorRuido(.005)
         self._atomo = atomo
     
     @property
@@ -16,7 +18,7 @@ class Radial(Dibujo, ConCore):
     @property
     def fotogramas_por_giro(self): return self._fotogramas_por_giro
     @property
-    def amplitud_maxima(self): return (self.c.alto + self.c.ancho) / 2 * .4 
+    def amplitud_maxima(self): return (self.c.alto + self.c.ancho) / 2 * .7 * self._amplitud_maxima_noise()
     
     
     def dibujar(self):
@@ -40,15 +42,12 @@ class Radial(Dibujo, ConCore):
     def _angulo_actual(self):
         """En radianes"""
         
-        angulo_actual = PI*2 * (float(self.c.nFotograma) / self.fotogramas_por_giro)
-        # print("angulo_actual", angulo_actual)
+        angulo_actual = PI*2 * (float(self.c.nFotograma) / self.fotogramas_por_giro + self._angulo_noise())
         return angulo_actual
     
     @property
     def _amplitud_actual(self):
-        self._amplitud_noise_off += .01
-        rdm = noise(self._amplitud_noise_off)
-        return self.amplitud_maxima * rdm
+        return self.amplitud_maxima * self._amplitud_noise()
         
 
 
