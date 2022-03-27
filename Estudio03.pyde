@@ -1,13 +1,20 @@
 from core import c
 from dibujo import DibujoPrincipal
-from radial import el_radial
-dibujoPrincipal = DibujoPrincipal([el_radial])
+from radial import radial_factory
+from utils import ExportadorDeFotogramas
+
+dibujo_principal = DibujoPrincipal(radial_factory.radiales())
+exportador_fotogramas = ExportadorDeFotogramas(core=c, frecuencia_exportacion=1)
 
 def setup():
     size(c.ancho, c.alto)
     frameRate(100)
-    background(20, 250)
+    background(c.bg_color, c.bg_alpha)
 
 def draw():
-    dibujoPrincipal.dibujar()
+    dibujo_principal.dibujar()
     c.dibujar()
+    exportador_fotogramas()
+
+def stop():
+    exportador_fotogramas.exportar_fin()
