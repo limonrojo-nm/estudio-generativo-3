@@ -43,7 +43,17 @@ class GenaradorRuido:
     def _incrementar_offset(self):
         self._noise_offset += self.incremento
 
+class SemillaRandom:
+    def __init__(self, semilla=None):
+        self._semilla = semilla if semilla is not None else int(random(9999999))
+    def __call__(self): return self._semilla
 
+class SemillaRandomFactory:
+    def __call__(self): return SemillaRandom(int(random(9999999)))
+    # def __call__(self): return SemillaRandom()
+
+semilla_random_factory = SemillaRandomFactory()
+    
 class ExportadorDeFotogramas:
     def __init__(self, core, frecuencia_exportacion=1, ceros_n_fotograma=5):
         self._c = core

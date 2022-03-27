@@ -1,6 +1,6 @@
 from core import ConCore
 from dibujo import Dibujo
-from atomos import LineaSimple, PuntoSimple
+from atomos import LineaSimple, PuntoSimple, PuntoComplejo, generar_punto_complejo
 from utils import Punto, GenaradorRuido
 
 class Radial(Dibujo, ConCore):
@@ -58,6 +58,7 @@ class RadialFactory:
     
     def __init__(self, cantidad=1):
         self._cantidad = cantidad
+        self._atomo = PuntoComplejo()
     
     @property
     def cantidad(self): return self._cantidad
@@ -75,6 +76,6 @@ class RadialFactory:
             self._radiales_generados = True
 
 
-radial_factory = RadialFactory(4)
+radial_factory = RadialFactory(100)
 
         
